@@ -11,6 +11,9 @@ import Toybox.WatchUi;
 import Toybox.Time;
 
 class WatchFaceView extends WatchUi.WatchFace {
+  
+  private var _background as Drawable;
+
   // Define number representations (example for '0' and '1')
   var numberPatterns as Array<Array> = [
     [
@@ -62,7 +65,7 @@ class WatchFaceView extends WatchUi.WatchFace {
   var numwidth = size*5;
   
   var gap = 8;
-  var offset = 2;
+  var offset = 3;
 
   // move all up to allow text below
   var ydif = 25;
@@ -70,14 +73,11 @@ class WatchFaceView extends WatchUi.WatchFace {
   // initial superclass, not the layout id
   function initialize() {
     WatchFace.initialize();
+    _background = new WatchUi.Bitmap({:rezId=>$.Rez.Drawables.backgroundImage, :locX=>0, :locY=>0});
   }
 
   // Load your resources here
   function onLayout(dc as Dc) as Void {
-    // background
-    //dc.clear();
-    var background = Application.loadResource(Rez.Drawables.backgroundImage);
-    dc.drawBitmap(0, 0, background);
   }
   // Called when this View is brought to the foreground. Restore
   // the state of this View and prepare it to be shown. This includes
@@ -90,14 +90,19 @@ class WatchFaceView extends WatchUi.WatchFace {
     for (var row = 0; row < pattern.size(); row++) {
       for (var col = 0; col < pattern[row].size(); col++) {
         if (pattern[row][col] == 1) {
-          dc.fillRectangle(x + col * size, y + row * size, size, size);
+          dc.setColor(0x58595b, Graphics.COLOR_TRANSPARENT);
+          // upper left corner x, y, w, h
+          // tall
+          dc.fillRectangle((x + col * size)+offset, y + row * size, dotdiam/2, dotdiam);
+          // wide
+          dc.fillRectangle(x + col * size, (y + row * size)+offset, dotdiam, dotdiam/2);
         }
       }
     }
   }
   function drawTime(dc as Graphics.Dc, hour as Number, minute as Number) {
     // Adobe - font size 30, mousse script, export png x 1
-    dc.setColor(0x8a8e1b, Graphics.COLOR_TRANSPARENT);
+    
 
     // Draw hour (dc, number, x, y, size)
     // Tens place of hour
@@ -118,7 +123,8 @@ class WatchFaceView extends WatchUi.WatchFace {
     var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
 
     // clear screen to draw on
-    //dc.clear();
+    dc.clear();
+    _background.draw(dc);
 
     // draw time
     drawTime(dc, today.hour, today.min);
