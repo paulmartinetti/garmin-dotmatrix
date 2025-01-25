@@ -11,59 +11,59 @@ import Toybox.WatchUi;
 import Toybox.Time;
 
 class WatchFaceView extends WatchUi.WatchFace {
-  
-  private var _background as Drawable;
+ private
+  var _background as Drawable;
 
   // Define number representations (example for '0' and '1')
   var numberPatterns as Array<Array> = [
     [
-      [ 1, 1, 1, 1, 1 ], [ 1, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ],
-      [ 1, 0, 0, 0, 1 ], [ 1, 1, 1, 1, 1 ]
+      [ 0, 1, 1, 1, 0 ], [ 1, 0, 0, 0, 1 ], [ 1, 0, 0, 1, 1 ],
+      [ 1, 0, 1, 0, 1 ], [ 1, 1, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ], [ 0, 1, 1, 1, 0 ]
     ],
     [
-      [ 0, 0, 0, 1, 1 ], [ 0, 0, 0, 0, 1 ], [ 0, 0, 0, 0, 1 ],
-      [ 0, 0, 0, 0, 1 ], [ 0, 0, 0, 0, 1 ]
+      [ 0, 0, 0, 1, 0 ], [ 0, 0, 1, 1, 0 ], [ 0, 1, 0, 1, 0 ],
+      [ 0, 0, 0, 1, 0 ], [ 0, 0, 0, 1, 0 ], [ 0, 0, 0, 1, 0 ], [ 0, 0, 0, 1, 0 ]
     ],
     [
-      [ 1, 1, 1, 1, 1 ], [ 0, 0, 0, 0, 1 ], [ 1, 1, 1, 1, 1 ],
-      [ 1, 0, 0, 0, 0 ], [ 1, 1, 1, 1, 1 ]
+      [ 0, 1, 1, 1, 0 ], [ 1, 0, 0, 0, 1 ], [ 0, 0, 0, 0, 1 ],
+      [ 0, 0, 0, 1, 0 ], [ 0, 0, 1, 0, 0 ], [ 0, 1, 0, 0, 0 ], [ 1, 1, 1, 1, 1 ]
     ],
     [
-      [ 1, 1, 1, 1, 1 ], [ 0, 0, 0, 0, 1 ], [ 0, 0, 1, 1, 1 ],
-      [ 0, 0, 0, 0, 1 ], [ 1, 1, 1, 1, 1 ]
+      [ 0, 1, 1, 1, 0 ], [ 1, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ],
+      [ 0, 0, 0, 1, 1 ], [ 0, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ], [ 0, 1, 1, 1, 0 ]
     ],
     [
-      [ 1, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ], [ 1, 1, 1, 1, 1 ],
-      [ 0, 0, 0, 0, 1 ], [ 0, 0, 0, 0, 1 ]
+      [ 0, 0, 0, 1, 0 ], [ 0, 0, 1, 1, 0 ], [ 0, 1, 0, 1, 0 ],
+      [ 1, 0, 0, 1, 0 ], [ 1, 1, 1, 1, 1 ], [ 0, 0, 0, 1, 0 ], [ 0, 0, 0, 1, 0 ]
     ],
     [
-      [ 1, 1, 1, 1, 1 ], [ 1, 0, 0, 0, 0 ], [ 1, 1, 1, 1, 1 ],
-      [ 0, 0, 0, 0, 1 ], [ 1, 1, 1, 1, 1 ]
+      [ 1, 1, 1, 1, 1 ], [ 1, 0, 0, 0, 0 ], [ 1, 1, 1, 1, 0 ],
+      [ 0, 0, 0, 0, 1 ], [ 0, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ], [ 0, 1, 1, 1, 0 ]
     ],
     [
-      [ 1, 1, 1, 1, 1 ], [ 1, 0, 0, 0, 0 ], [ 1, 1, 1, 1, 1 ],
-      [ 1, 0, 0, 0, 1 ], [ 1, 1, 1, 1, 1 ]
+      [ 0, 1, 1, 1, 0 ], [ 1, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 0 ],
+      [ 1, 1, 1, 1, 0 ], [ 1, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ], [ 0, 1, 1, 1, 0 ]
     ],
     [
-      [ 1, 1, 1, 1, 1 ], [ 0, 0, 0, 0, 1 ], [ 0, 0, 0, 0, 1 ],
-      [ 0, 0, 0, 0, 1 ], [ 0, 0, 0, 0, 1 ]
+      [ 1, 1, 1, 1, 1 ], [ 1, 0, 0, 0, 1 ], [ 0, 0, 0, 1, 0 ],
+      [ 0, 0, 1, 0, 0 ], [ 0, 0, 1, 0, 0 ],[ 0, 0, 1, 0, 0 ],[ 0, 0, 1, 0, 0 ]
     ],
     [
-      [ 1, 1, 1, 1, 1 ], [ 1, 0, 0, 0, 1 ], [ 1, 1, 1, 1, 1 ],
-      [ 1, 0, 0, 0, 1 ], [ 1, 1, 1, 1, 1 ]
+      [ 0, 1, 1, 1, 0 ], [ 1, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ],
+      [ 0, 1, 1, 1, 0 ], [ 1, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ], [ 0, 1, 1, 1, 0 ]
     ],
     [
-      [ 1, 1, 1, 1, 1 ], [ 1, 0, 0, 0, 1 ], [ 1, 1, 1, 1, 1 ],
-      [ 0, 0, 0, 0, 1 ], [ 1, 1, 1, 1, 1 ]
+      [ 0, 1, 1, 1, 0 ], [ 1, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ],
+      [ 0, 1, 1, 1, 1 ], [ 0, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ], [ 0, 1, 1, 1, 0 ]
     ]
   ];
 
   // to draw dot rectangles
   var dotdiam = 12;
   var dotspace = 4;
-  var size = dotdiam+dotspace;
-  var numwidth = size*5;
-  
+  var size = dotdiam + dotspace;
+  var numwidth = size * 5;
+
   var gap = 5;
   var offset = 3;
 
@@ -77,8 +77,7 @@ class WatchFaceView extends WatchUi.WatchFace {
   }
 
   // Load your resources here
-  function onLayout(dc as Dc) as Void {
-  }
+  function onLayout(dc as Dc) as Void {}
   // Called when this View is brought to the foreground. Restore
   // the state of this View and prepare it to be shown. This includes
   // loading resources into memory.
@@ -91,33 +90,36 @@ class WatchFaceView extends WatchUi.WatchFace {
       for (var col = 0; col < pattern[row].size(); col++) {
         if (pattern[row][col] == 1) {
           dc.setColor(0x939598, Graphics.COLOR_TRANSPARENT);
-          dc.fillRectangle((x + col * size)+1, (y + row * size)+1, dotdiam-2, dotdiam-2);
+          dc.fillRectangle((x + col * size) + 1, (y + row * size) + 1,
+                           dotdiam - 2, dotdiam - 2);
 
           dc.setColor(0x58595b, Graphics.COLOR_TRANSPARENT);
           // upper left corner x, y, w, h
           // tall
-          dc.fillRectangle((x + col * size)+offset, y + row * size, dotdiam/2, dotdiam);
+          dc.fillRectangle((x + col * size) + offset, y + row * size,
+                           dotdiam / 2, dotdiam);
           // wide
-          dc.fillRectangle(x + col * size, (y + row * size)+offset, dotdiam, dotdiam/2);
+          dc.fillRectangle(x + col * size, (y + row * size) + offset, dotdiam,
+                           dotdiam / 2);
         }
       }
     }
   }
   function drawTime(dc as Graphics.Dc, hour as Number, minute as Number) {
     // Adobe - font size 30, mousse script, export png x 1
-    
 
     // Draw hour (dc, number, x, y, size)
     // Tens place of hour
-    drawNumber(dc, (hour / 10 % 10), (195-gap-numwidth-gap-numwidth), (195-50), size);
+    drawNumber(dc, (hour / 10 % 10), (195 - gap - numwidth - gap - numwidth),
+               (195 - 50), size);
     // Ones place of hour
-    drawNumber(dc, (hour % 10), 195-gap-numwidth, (195-50), size);
+    drawNumber(dc, (hour % 10), 195 - gap - numwidth, (195 - 50), size);
 
     // Draw minute
     // Tens place of minute
-    drawNumber(dc, (minute / 10 % 10), 195+gap, (195-50), size);
+    drawNumber(dc, (minute / 10 % 10), 195 + gap, (195 - 50), size);
     // Ones place of minute
-    drawNumber(dc, (minute % 10), 195+gap+numwidth+gap, (195-50), size);
+    drawNumber(dc, (minute % 10), 195 + gap + numwidth + gap, (195 - 50), size);
   }
 
   // Update the view
