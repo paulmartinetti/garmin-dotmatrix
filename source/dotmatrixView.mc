@@ -64,7 +64,7 @@ class WatchFaceView extends WatchUi.WatchFace {
   var size = dotdiam+dotspace;
   var numwidth = size*5;
   
-  var gap = 8;
+  var gap = 5;
   var offset = 3;
 
   // move all up to allow text below
@@ -90,6 +90,9 @@ class WatchFaceView extends WatchUi.WatchFace {
     for (var row = 0; row < pattern.size(); row++) {
       for (var col = 0; col < pattern[row].size(); col++) {
         if (pattern[row][col] == 1) {
+          dc.setColor(0x939598, Graphics.COLOR_TRANSPARENT);
+          dc.fillRectangle((x + col * size)+1, (y + row * size)+1, dotdiam-2, dotdiam-2);
+
           dc.setColor(0x58595b, Graphics.COLOR_TRANSPARENT);
           // upper left corner x, y, w, h
           // tall
