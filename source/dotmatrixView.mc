@@ -60,7 +60,7 @@ class WatchFaceView extends WatchUi.WatchFace {
 
   // to draw dot rectangles
   var dotdiam = 12;
-  var dotspace = 4;
+  var dotspace = 2;
   var size = dotdiam + dotspace;
   var numwidth = size * 5;
 
