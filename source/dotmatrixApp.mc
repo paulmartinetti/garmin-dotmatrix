@@ -2,7 +2,7 @@ import Toybox.Application;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-class dot_matrixApp extends Application.AppBase {
+class dotmatrixApp extends Application.AppBase {
 
     function initialize() {
         AppBase.initialize();
@@ -18,11 +18,11 @@ class dot_matrixApp extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() as [Views] or [Views, InputDelegates] {
-        return [ new dot_matrixView() ];
+        return [ new WatchFaceView() ];
     }
 
 }
 
-function getApp() as dot_matrixApp {
-    return Application.getApp() as dot_matrixApp;
+function getApp() as dotmatrixApp {
+    return Application.getApp() as dotmatrixApp;
 }

@@ -1,7 +1,7 @@
 //
-// 
+//
 // Whatever
-// 
+//
 //
 
 import Toybox.Graphics;
@@ -12,7 +12,7 @@ import Toybox.Time;
 
 class WatchFaceView extends WatchUi.WatchFace {
   // Define number representations (example for '0' and '1')
-  private var numberPatterns as Array<Array> = [
+  var numberPatterns as Array<Array> = [
     [
       [ 1, 1, 1, 1, 1 ], [ 1, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ],
       [ 1, 0, 0, 0, 1 ], [ 1, 1, 1, 1, 1 ]
@@ -55,20 +55,30 @@ class WatchFaceView extends WatchUi.WatchFace {
     ]
   ];
 
-  
   // to draw dot rectangles
-  private var offset = 2;
+  var dotdiam = 12;
+  var dotspace = 4;
+  var size = dotdiam+dotspace;
+  var numwidth = size*5;
+  
+  var gap = 8;
+  var offset = 2;
 
   // move all up to allow text below
-  private var ydif = 25;
+  var ydif = 25;
 
   // initial superclass, not the layout id
-  function initialize() { WatchFace.initialize(); }
+  function initialize() {
+    WatchFace.initialize();
+  }
 
   // Load your resources here
-  function onLayout(dc as Dc) as Void {}
-  // setLayout($.Rez.Layouts.WatchFace(dc));
-
+  function onLayout(dc as Dc) as Void {
+    // background
+    //dc.clear();
+    var background = Application.loadResource(Rez.Drawables.backgroundImage);
+    dc.drawBitmap(0, 0, background);
+  }
   // Called when this View is brought to the foreground. Restore
   // the state of this View and prepare it to be shown. This includes
   // loading resources into memory.
@@ -87,19 +97,19 @@ class WatchFaceView extends WatchUi.WatchFace {
   }
   function drawTime(dc as Graphics.Dc, hour as Number, minute as Number) {
     // Adobe - font size 30, mousse script, export png x 1
-    dc.setColor(0x8a8e1b, Graphics.COLOR_BLACK);
+    dc.setColor(0x8a8e1b, Graphics.COLOR_TRANSPARENT);
 
     // Draw hour (dc, number, x, y, size)
     // Tens place of hour
-    drawNumber(dc, (hour / 10 % 10), p1, p1 - ydif, size);
+    drawNumber(dc, (hour / 10 % 10), (195-gap-numwidth-gap-numwidth), (195-50), size);
     // Ones place of hour
-    drawNumber(dc, (hour % 10), p2, p1 - ydif, size);
+    drawNumber(dc, (hour % 10), 195-gap-numwidth, (195-50), size);
 
     // Draw minute
     // Tens place of minute
-    drawNumber(dc, (minute / 10 % 10), p1, p2 - ydif, size);
+    drawNumber(dc, (minute / 10 % 10), 195+gap, (195-50), size);
     // Ones place of minute
-    drawNumber(dc, (minute % 10), p2, p2 - ydif, size);
+    drawNumber(dc, (minute % 10), 195+gap+numwidth+gap, (195-50), size);
   }
 
   // Update the view
@@ -108,17 +118,8 @@ class WatchFaceView extends WatchUi.WatchFace {
     var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
 
     // clear screen to draw on
-    dc.clear();
+    //dc.clear();
 
-    
-    // load jour as png based on day
-    //var image = Application.loadResource($.Rez.Drawables.N24) as BitmapResource;
-    //System.println(image.getWidth());
-    var image = Application.loadResource(jourA[today.day]) as BitmapResource;
-    // set jour x based on its width
-    var ix = 195 - (image.getWidth() / 2);
-    // draw jour
-    dc.drawBitmap(ix, 285, image);
     // draw time
     drawTime(dc, today.hour, today.min);
   }
