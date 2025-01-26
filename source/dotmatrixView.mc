@@ -69,7 +69,7 @@ class WatchFaceView extends WatchUi.WatchFace {
   var offset = 3;
 
   // move all up to allow text below
-  var ydif = 40;
+  var ydif = 76;
 
   // initial superclass, not the layout id
   function initialize() {
@@ -134,6 +134,12 @@ class WatchFaceView extends WatchUi.WatchFace {
 
     // draw time
     drawTime(dc, today.hour, today.min);
+
+    // draw date
+    // Tens place of day
+    drawNumber(dc, (today.day /10 % 10), 195 - gap - numwidth, (195 + 40), size);
+    // Ones place of day
+    drawNumber(dc, (today.day % 10), 195 + gap, (195 + 40), size);
   }
 
   // Called when this View is removed from the screen. Save the
