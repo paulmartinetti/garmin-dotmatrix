@@ -11,7 +11,7 @@ import Toybox.WatchUi;
 import Toybox.Time;
 
 class WatchFaceView extends WatchUi.WatchFace {
- private
+
   var _background as Drawable;
 
   // Define number representations (example for '0' and '1')
@@ -29,8 +29,8 @@ class WatchFaceView extends WatchUi.WatchFace {
       [ 0, 0, 0, 1, 0 ], [ 0, 0, 1, 0, 0 ], [ 0, 1, 0, 0, 0 ], [ 1, 1, 1, 1, 1 ]
     ],
     [
-      [ 0, 1, 1, 1, 0 ], [ 1, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ],
-      [ 0, 0, 0, 1, 1 ], [ 0, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ], [ 0, 1, 1, 1, 0 ]
+      [ 0, 1, 1, 1, 0 ], [ 1, 0, 0, 0, 1 ], [ 0, 0, 0, 0, 1 ],
+      [ 0, 0, 1, 1, 0 ], [ 0, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ], [ 0, 1, 1, 1, 0 ]
     ],
     [
       [ 0, 0, 0, 1, 0 ], [ 0, 0, 1, 1, 0 ], [ 0, 1, 0, 1, 0 ],
@@ -59,16 +59,17 @@ class WatchFaceView extends WatchUi.WatchFace {
   ];
 
   // to draw dot rectangles
-  var dotdiam = 12;
-  var dotspace = 2;
+  var dotdiam = 10;
+  var dotspace = 1;
   var size = dotdiam + dotspace;
   var numwidth = size * 5;
 
   var gap = 5;
+  // drawing two rectangles 12x6 at 90 degrees to make a plus sign, so use offset to center in a square
   var offset = 3;
 
   // move all up to allow text below
-  var ydif = 25;
+  var ydif = 40;
 
   // initial superclass, not the layout id
   function initialize() {
@@ -111,15 +112,15 @@ class WatchFaceView extends WatchUi.WatchFace {
     // Draw hour (dc, number, x, y, size)
     // Tens place of hour
     drawNumber(dc, (hour / 10 % 10), (195 - gap - numwidth - gap - numwidth),
-               (195 - 50), size);
+               (195 - ydif), size);
     // Ones place of hour
-    drawNumber(dc, (hour % 10), 195 - gap - numwidth, (195 - 50), size);
+    drawNumber(dc, (hour % 10), 195 - gap - numwidth, (195 - ydif), size);
 
     // Draw minute
     // Tens place of minute
-    drawNumber(dc, (minute / 10 % 10), 195 + gap, (195 - 50), size);
+    drawNumber(dc, (minute / 10 % 10), 195 + gap, (195 - ydif), size);
     // Ones place of minute
-    drawNumber(dc, (minute % 10), 195 + gap + numwidth + gap, (195 - 50), size);
+    drawNumber(dc, (minute % 10), 195 + gap + numwidth + gap, (195 - ydif), size);
   }
 
   // Update the view
