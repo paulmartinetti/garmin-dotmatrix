@@ -11,7 +11,6 @@ import Toybox.WatchUi;
 import Toybox.Time;
 
 class WatchFaceView extends WatchUi.WatchFace {
-
   var _background as Drawable;
 
   // Define number representations (example for '0' and '1')
@@ -46,7 +45,7 @@ class WatchFaceView extends WatchUi.WatchFace {
     ],
     [
       [ 1, 1, 1, 1, 1 ], [ 1, 0, 0, 0, 1 ], [ 0, 0, 0, 1, 0 ],
-      [ 0, 0, 1, 0, 0 ], [ 0, 0, 1, 0, 0 ],[ 0, 0, 1, 0, 0 ],[ 0, 0, 1, 0, 0 ]
+      [ 0, 0, 1, 0, 0 ], [ 0, 0, 1, 0, 0 ], [ 0, 0, 1, 0, 0 ], [ 0, 0, 1, 0, 0 ]
     ],
     [
       [ 0, 1, 1, 1, 0 ], [ 1, 0, 0, 0, 1 ], [ 1, 0, 0, 0, 1 ],
@@ -64,8 +63,9 @@ class WatchFaceView extends WatchUi.WatchFace {
   var size = dotdiam + dotspace;
   var numwidth = size * 5;
 
-  var gap = 5;
-  // drawing two rectangles 12x6 at 90 degrees to make a plus sign, so use offset to center in a square
+  var gap = 6;
+  // drawing two rectangles 12x6 at 90 degrees to make a plus sign, so use
+  // offset to center in a square
   var offset = 3;
 
   // move all up to allow text below
@@ -111,18 +111,32 @@ class WatchFaceView extends WatchUi.WatchFace {
 
     // Draw hour (dc, number, x, y, size)
     // Tens place of hour
-    drawNumber(dc, (hour / 10 % 10), (195 - gap - numwidth - gap - numwidth),
+    drawNumber(dc, (hour / 10 % 10), (195 - gap - numwidth - gap - numwidth - gap),
                (195 - ydif), size);
     // Ones place of hour
-    drawNumber(dc, (hour % 10), 195 - gap - numwidth, (195 - ydif), size);
+    drawNumber(dc, (hour % 10), 195 - gap - numwidth - gap, (195 - ydif), size);
 
     // Draw minute
     // Tens place of minute
-    drawNumber(dc, (minute / 10 % 10), 195 + gap, (195 - ydif), size);
+    drawNumber(dc, (minute / 10 % 10), 195 + gap + gap, (195 - ydif), size);
     // Ones place of minute
-    drawNumber(dc, (minute % 10), 195 + gap + numwidth + gap, (195 - ydif), size);
+    drawNumber(dc, (minute % 10), 195 + gap + numwidth + gap + 10, (195 - ydif),
+               size);
   }
 
+
+  function drawSeparaterDots(dc as Dc, yoffset as Number) {
+    // draw two dots between hour and minutes
+    // light gray bg square first, slightly smaller
+    dc.setColor(0x939598, Graphics.COLOR_TRANSPARENT);
+    dc.fillRectangle(195-gap, 195-yoffset, dotdiam-2, dotdiam - 2);
+    // plus sign
+    dc.setColor(0x58595b, Graphics.COLOR_TRANSPARENT);
+    // tall - upper left corner x, y, w, h
+    dc.fillRectangle(195 + offset-gap, 195-yoffset, dotdiam / 2, dotdiam);
+    // wide
+    dc.fillRectangle(195-gap, 195 + offset-yoffset, dotdiam, dotdiam / 2);
+  }
   // Update the view
   function onUpdate(dc as Dc) as Void {
     // Get date and time
@@ -137,9 +151,15 @@ class WatchFaceView extends WatchUi.WatchFace {
 
     // draw date
     // Tens place of day
-    drawNumber(dc, (today.day /10 % 10), 195 - gap - numwidth, (195 + 40), size);
+    drawNumber(dc, (today.day / 10 % 10), 195 - gap - numwidth, (195 + 40),
+               size);
     // Ones place of day
     drawNumber(dc, (today.day % 10), 195 + gap, (195 + 40), size);
+
+    // draw separater dots
+    drawSeparaterDots(dc, 27);
+    drawSeparaterDots(dc, 57); 
+    
   }
 
   // Called when this View is removed from the screen. Save the
