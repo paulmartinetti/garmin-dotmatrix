@@ -111,8 +111,9 @@ class WatchFaceView extends WatchUi.WatchFace {
 
     // Draw hour (dc, number, x, y, size)
     // Tens place of hour
-    drawNumber(dc, (hour / 10 % 10), (195 - gap - numwidth - gap - numwidth - gap),
-               (195 - ydif), size);
+    drawNumber(dc, (hour / 10 % 10),
+               (195 - gap - numwidth - gap - numwidth - gap), (195 - ydif),
+               size);
     // Ones place of hour
     drawNumber(dc, (hour % 10), 195 - gap - numwidth - gap, (195 - ydif), size);
 
@@ -124,18 +125,18 @@ class WatchFaceView extends WatchUi.WatchFace {
                size);
   }
 
-
   function drawSeparaterDots(dc as Dc, yoffset as Number) {
     // draw two dots between hour and minutes
     // light gray bg square first, slightly smaller
     dc.setColor(0x939598, Graphics.COLOR_TRANSPARENT);
-    dc.fillRectangle(195-gap, 195-yoffset, dotdiam-2, dotdiam - 2);
+    dc.fillRectangle(195 - gap + 1, 195 - yoffset + 1, dotdiam - 2,
+                     dotdiam - 2);
     // plus sign
     dc.setColor(0x58595b, Graphics.COLOR_TRANSPARENT);
     // tall - upper left corner x, y, w, h
-    dc.fillRectangle(195 + offset-gap, 195-yoffset, dotdiam / 2, dotdiam);
+    dc.fillRectangle(195 + offset - gap, 195 - yoffset, dotdiam / 2, dotdiam);
     // wide
-    dc.fillRectangle(195-gap, 195 + offset-yoffset, dotdiam, dotdiam / 2);
+    dc.fillRectangle(195 - gap, 195 + offset - yoffset, dotdiam, dotdiam / 2);
   }
   // Update the view
   function onUpdate(dc as Dc) as Void {
@@ -158,8 +159,7 @@ class WatchFaceView extends WatchUi.WatchFace {
 
     // draw separater dots
     drawSeparaterDots(dc, 27);
-    drawSeparaterDots(dc, 57); 
-    
+    drawSeparaterDots(dc, 57);
   }
 
   // Called when this View is removed from the screen. Save the
