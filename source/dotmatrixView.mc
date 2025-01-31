@@ -6,12 +6,11 @@
 
 import Toybox.Graphics;
 import Toybox.Lang;
-// import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Time;
 import Toybox.Application;
 
-    class WatchFaceView extends WatchUi.WatchFace {
+class WatchFaceView extends WatchUi.WatchFace {
   var _background as Drawable;
   var _dot as BitmapResource;
 
@@ -104,10 +103,11 @@ import Toybox.Application;
     // Draw hour (dc, number, x, y, size)
     // Tens place of hour
     drawNumber(dc, (hour / 10 % 10),
-               (195 - gap - numwidth - gap - numwidth - gap), (195 - ydif),
+               (195 - gap - numwidth - gap - numwidth - gap - 7), (195 - ydif),
                size);
     // Ones place of hour
-    drawNumber(dc, (hour % 10), 195 - gap - numwidth - gap, (195 - ydif), size);
+    drawNumber(dc, (hour % 10), (195 - gap - numwidth - gap - 4), (195 - ydif),
+               size);
 
     // Draw minute
     // Tens place of minute
@@ -119,7 +119,7 @@ import Toybox.Application;
 
   function drawSeparaterDots(dc as Dc, yoffset as Number) {
     // draw two dots between hour and minutes
-    dc.drawBitmap(195-gap, 195-yoffset, _dot);
+    dc.drawBitmap(195 - gap, 195 - yoffset, _dot);
   }
   // Update the view
   function onUpdate(dc as Dc) as Void {
