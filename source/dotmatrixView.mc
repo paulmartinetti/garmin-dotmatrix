@@ -6,12 +6,14 @@
 
 import Toybox.Graphics;
 import Toybox.Lang;
-import Toybox.System;
+// import Toybox.System;
 import Toybox.WatchUi;
 import Toybox.Time;
+import Toybox.Application;
 
-class WatchFaceView extends WatchUi.WatchFace {
+    class WatchFaceView extends WatchUi.WatchFace {
   var _background as Drawable;
+  var _dot as BitmapResource;
 
   // Define number representations (example for '0' and '1')
   var numberPatterns as Array<Array> = [
@@ -75,6 +77,7 @@ class WatchFaceView extends WatchUi.WatchFace {
   function initialize() {
     WatchFace.initialize();
     _background = new WatchUi.Bitmap({:rezId=>$.Rez.Drawables.backgroundImage, :locX=>0, :locY=>0});
+    _dot = Application.loadResource($.Rez.Drawables.Dot);
   }
 
   // Load your resources here
@@ -90,18 +93,7 @@ class WatchFaceView extends WatchUi.WatchFace {
     for (var row = 0; row < pattern.size(); row++) {
       for (var col = 0; col < pattern[row].size(); col++) {
         if (pattern[row][col] == 1) {
-          dc.setColor(0x939598, Graphics.COLOR_TRANSPARENT);
-          dc.fillRectangle((x + col * size) + 1, (y + row * size) + 1,
-                           dotdiam - 2, dotdiam - 2);
-
-          dc.setColor(0x58595b, Graphics.COLOR_TRANSPARENT);
-          // upper left corner x, y, w, h
-          // tall
-          dc.fillRectangle((x + col * size) + offset, y + row * size,
-                           dotdiam / 2, dotdiam);
-          // wide
-          dc.fillRectangle(x + col * size, (y + row * size) + offset, dotdiam,
-                           dotdiam / 2);
+          dc.drawBitmap(x + col * size, y + row * size, _dot);
         }
       }
     }
@@ -127,16 +119,7 @@ class WatchFaceView extends WatchUi.WatchFace {
 
   function drawSeparaterDots(dc as Dc, yoffset as Number) {
     // draw two dots between hour and minutes
-    // light gray bg square first, slightly smaller
-    dc.setColor(0x939598, Graphics.COLOR_TRANSPARENT);
-    dc.fillRectangle(195 - gap + 1, 195 - yoffset + 1, dotdiam - 2,
-                     dotdiam - 2);
-    // plus sign
-    dc.setColor(0x58595b, Graphics.COLOR_TRANSPARENT);
-    // tall - upper left corner x, y, w, h
-    dc.fillRectangle(195 + offset - gap, 195 - yoffset, dotdiam / 2, dotdiam);
-    // wide
-    dc.fillRectangle(195 - gap, 195 + offset - yoffset, dotdiam, dotdiam / 2);
+    dc.drawBitmap(195-gap, 195-yoffset, _dot);
   }
   // Update the view
   function onUpdate(dc as Dc) as Void {
