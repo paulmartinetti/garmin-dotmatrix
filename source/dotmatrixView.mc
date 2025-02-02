@@ -1,7 +1,7 @@
 //
 //
-// Whatever
-//
+// I made png of a dot in Adobe Illustrator
+// There are unused functions that the VSC Monkey C plug makes...not sure if they should be deleted
 //
 
 import Toybox.Graphics;
@@ -11,10 +11,13 @@ import Toybox.Time;
 import Toybox.Application;
 
 class WatchFaceView extends WatchUi.WatchFace {
+
+  // these variables are allowed to be typed without setting an initial value
   var _background as Drawable;
   var _dot as BitmapResource;
 
   // Define number representations (example for '0' and '1')
+  // Numbers are 5 dots wide by 7 dots high
   var numberPatterns as Array<Array> = [
     [
       [ 0, 1, 1, 1, 0 ], [ 1, 0, 0, 0, 1 ], [ 1, 0, 0, 1, 1 ],
@@ -69,21 +72,23 @@ class WatchFaceView extends WatchUi.WatchFace {
   // offset to center in a square
   var offset = 3;
 
-  // move all up to allow text below
+  // move all numbers up on the screen to allow text below
   var ydif = 76;
 
   // initial superclass, not the layout id
   function initialize() {
     WatchFace.initialize();
+    // still have to draw onUpdate()
     _background = new WatchUi.Bitmap({:rezId=>$.Rez.Drawables.backgroundImage, :locX=>0, :locY=>0});
+    // creat and use later
     _dot = Application.loadResource($.Rez.Drawables.Dot);
   }
 
-  // Load your resources here
+  // Load your resources here -- not using
   function onLayout(dc as Dc) as Void {}
   // Called when this View is brought to the foreground. Restore
   // the state of this View and prepare it to be shown. This includes
-  // loading resources into memory.
+  // loading resources into memory -- not using
   function onShow() as Void {}
 
   function drawNumber(dc as Graphics.Dc, number as Number, x as Number,
@@ -91,6 +96,7 @@ class WatchFaceView extends WatchUi.WatchFace {
     var pattern = numberPatterns[number] as Array<Array>;
     for (var row = 0; row < pattern.size(); row++) {
       for (var col = 0; col < pattern[row].size(); col++) {
+        // if there is a 1, place a dot
         if (pattern[row][col] == 1) {
           dc.drawBitmap(x + col * size, y + row * size, _dot);
         }
@@ -124,7 +130,7 @@ class WatchFaceView extends WatchUi.WatchFace {
   // Update the view
   function onUpdate(dc as Dc) as Void {
     // Get date and time
-    var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT);
+    var today = Gregorian.info(Time.now(), Time.FORMAT_SHORT) as Gregorian.Info;
 
     // clear screen to draw on
     dc.clear();
@@ -147,13 +153,13 @@ class WatchFaceView extends WatchUi.WatchFace {
 
   // Called when this View is removed from the screen. Save the
   // state of this View here. This includes freeing resources from
-  // memory.
+  // memory. -- unused
   function onHide() as Void {}
 
   // The user has just looked at their watch. Timers and animations may be
-  // started here.
+  // started here.-- unused
   function onExitSleep() as Void {}
 
-  // Terminate any active timers and prepare for slow updates.
+  // Terminate any active timers and prepare for slow updates.-- unused
   function onEnterSleep() as Void {}
 }
